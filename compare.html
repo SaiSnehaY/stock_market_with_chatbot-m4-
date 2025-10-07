@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stock Comparison Tool</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="compare-page">
+    <nav class="navbar">
+        <button id="back-button" class="left">← Back to Dashboard</button>
+        <h1 class="center">Stock Comparison Tool</h1>
+        <button id="theme-toggle" class="right">Dark Theme</button>
+    </nav>
+
+    <div class="container">
+        <div class="card controls-card">
+            <h3>Select Stocks to Compare</h3>
+            <div class="stock-selection">
+                <div class="stock-input-group">
+                    <label for="stock1">Stock 1:</label>
+                    <select id="stock1" class="stock-select">
+                        <option value="">Select Stock</option>
+                        <option value="AAPL">Apple (AAPL)</option>
+                        <option value="MSFT">Microsoft (MSFT)</option>
+                        <option value="GOOGL">Google (GOOGL)</option>
+                        <option value="AMZN">Amazon (AMZN)</option>
+                        <option value="TSLA">Tesla (TSLA)</option>
+                        <option value="META">Meta (META)</option>
+                        <option value="NVDA">NVIDIA (NVDA)</option>
+                        <option value="NFLX">Netflix (NFLX)</option>
+                        <option value="JPM">JPMorgan (JPM)</option>
+                        <option value="JNJ">Johnson & Johnson (JNJ)</option>
+                    </select>
+                </div>
+                <div class="stock-input-group">
+                    <label for="stock2">Stock 2:</label>
+                    <select id="stock2" class="stock-select">
+                        <option value="">Select Stock</option>
+                        <option value="AAPL">Apple (AAPL)</option>
+                        <option value="MSFT">Microsoft (MSFT)</option>
+                        <option value="GOOGL">Google (GOOGL)</option>
+                        <option value="AMZN">Amazon (AMZN)</option>
+                        <option value="TSLA">Tesla (TSLA)</option>
+                        <option value="META">Meta (META)</option>
+                        <option value="NVDA">NVIDIA (NVDA)</option>
+                        <option value="NFLX">Netflix (NFLX)</option>
+                        <option value="JPM">JPMorgan (JPM)</option>
+                        <option value="JNJ">Johnson & Johnson (JNJ)</option>
+                    </select>
+                </div>
+                <div class="stock-input-group">
+                    <label for="stock3">Stock 3 (Optional):</label>
+                    <select id="stock3" class="stock-select">
+                        <option value="">Select Stock</option>
+                        <option value="AAPL">Apple (AAPL)</option>
+                        <option value="MSFT">Microsoft (MSFT)</option>
+                        <option value="GOOGL">Google (GOOGL)</option>
+                        <option value="AMZN">Amazon (AMZN)</option>
+                        <option value="TSLA">Tesla (TSLA)</option>
+                        <option value="META">Meta (META)</option>
+                        <option value="NVDA">NVIDIA (NVDA)</option>
+                        <option value="NFLX">Netflix (NFLX)</option>
+                        <option value="JPM">JPMorgan (JPM)</option>
+                        <option value="JNJ">Johnson & Johnson (JNJ)</option>
+                    </select>
+                </div>
+            </div>
+            <div class="date-input-group">
+                <label for="compare-date">Prediction Date:</label>
+                <input type="date" id="compare-date" required>
+            </div>
+            <button id="compare-button" class="btn-primary">Compare Stocks</button>
+        </div>
+
+        <div class="card results-card" id="results-card" style="display: none;">
+            <h3>Comparison Results</h3>
+            <div class="comparison-summary" id="comparison-summary"></div>
+            <div class="chart-container">
+                <div id="comparison-chart"></div>
+            </div>
+            <div class="predictions-table" id="predictions-table"></div>
+        </div>
+    </div>
+
+    <script src="compare.js"></script>
+</body>
+</html>

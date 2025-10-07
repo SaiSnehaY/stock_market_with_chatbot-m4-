@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stock Price Prediction Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body class="dashboard-page">
+    <nav class="navbar">
+        <button id="logout-button" class="left">Logout</button>
+        <h1 class="center main-title">Stock Price Prediction System</h1>
+        <div class="right" style="display:flex; gap:8px; align-items:center;">
+            <button id="ask-anything-top" class="extras-btn">Ask Anything</button>
+            <button id="theme-toggle" class="right">Toggle Theme</button>
+        </div>
+    </nav>
+    <div class="toolbar">
+        <button id="menu-button" aria-label="Open menu"><span></span></button>
+        <div id="extras-panel">
+            <strong>Extra Features</strong>
+            <div class="extras-grid">
+                <button id="export-doc" class="extras-btn">Export Today's Report (Word)</button>
+                <button id="compare-button" class="extras-btn">Compare Stocks</button>
+                <button id="visualization-btn" class="extras-btn">Visualization</button>
+                <!-- <button id="ai-predictor-btn" class="extras-btn">AI Stock Predictor</button> -->
+            </div>
+        </div>
+    </div>
+    
+    <div class="welcome-section">
+        <h2 id="welcome-message">Welcome to Stock Prediction</h2>
+        <p id="user-greeting">Please login to get started</p>
+    </div>
+
+    <div class="container dashboard">
+        <div class="left-panel">
+            <div class="card controls-card" id="controls-card">
+                <h2>Predict Stock Price</h2>
+                <div class="form-group">
+                    <label for="stock-select">Choose Stock:</label>
+                    <select id="stock-select">
+                        <option value="">Choose</option>
+                        <option value="AAPL">Apple Inc. (AAPL)</option>
+                        <option value="MSFT">Microsoft Corp. (MSFT)</option>
+                        <option value="GOOGL">Alphabet Inc. (GOOGL)</option>
+                        <option value="AMZN">Amazon.com Inc. (AMZN)</option>
+                        <option value="TSLA">Tesla Inc. (TSLA)</option>
+                        <option value="FB">Meta Platforms Inc. (FB)</option>
+                        <option value="NVDA">NVIDIA Corp. (NVDA)</option>
+                        <option value="JPM">JPMorgan Chase & Co. (JPM)</option>
+                        <option value="V">Visa Inc. (V)</option>
+                        <option value="PG">Procter & Gamble Co. (PG)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="date-input">Date:</label>
+                    <input type="date" id="date-input">
+                </div>
+                <div class="form-group">
+                    <label for="chart-type">Chart Type:</label>
+                    <select id="chart-type">
+                        <option value="bar">Histogram</option>
+                        <option value="line">Line</option>
+                        <option value="area">Area</option>
+                        <option value="box">Box</option>
+                        <option value="violin">Violin</option>
+                    </select>
+                </div>
+                <button id="predict-button">Predict</button>
+            </div>
+        </div>
+
+        <div class="right-panel">
+            <div class="card results-card" id="results-card">
+                <div class="kpi-row">
+                    <div class="kpi"><div class="kpi-label">Current Price</div><div class="kpi-value" id="kpi-price">-</div></div>
+                    <div class="kpi"><div class="kpi-label">Change</div><div class="kpi-value" id="kpi-change">-</div></div>
+                    <div class="kpi"><div class="kpi-label">Volume</div><div class="kpi-value" id="kpi-volume">-</div></div>
+                </div>
+                <div id="stock-summary" class="stock-summary">
+                    <h3 id="stock-name">Select a stock to view details</h3>
+                    <div class="summary-grid">
+                        <div><span class="label">Symbol</span><span id="sum-symbol">-</span></div>
+                        <div><span class="label">Latest Close</span><span id="sum-close">-</span></div>
+                        <div><span class="label">Date</span><span id="sum-date">-</span></div>
+                        <div><span class="label">Day High</span><span id="sum-high">-</span></div>
+                        <div><span class="label">Day Low</span><span id="sum-low">-</span></div>
+                        <div><span class="label">Volume</span><span id="sum-volume">-</span></div>
+                    </div>
+                    <div id="sparkline" class="sparkline"></div>
+                </div>
+                <h3>Prediction Results</h3>
+                <table class="compact-table">
+                    <thead>
+                        <tr>
+                            <th>Model</th>
+                            <th>Predicted Price</th>
+                        </tr>
+                    </thead>
+                    <tbody id="predictions-body"></tbody>
+                </table>
+                <div id="chart-container"></div>
+                <div id="ranking-container" style="margin-top:12px;"></div>
+                
+
+            </div>
+        </div>
+    </div>
+
+    <script src="dashboard.js"></script>
+    <!-- AI Predictor Modal -->
+    <div id="ai-modal" class="ai-modal" aria-hidden="true" style="display:none;">
+        <div class="ai-modal-backdrop" id="ai-modal-backdrop" style="position:fixed;inset:0;background:rgba(0,0,0,0.45);"></div>
+        <div class="ai-modal-dialog" role="dialog" aria-modal="true" aria-labelledby="ai-modal-title" style="position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);width:min(780px,92vw);max-height:86vh;overflow:auto;background:var(--card-bg,#fff);border-radius:12px;box-shadow:0 12px 40px rgba(0,0,0,0.25);">
+            <div class="ai-modal-header" style="display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:1px solid rgba(0,0,0,0.06);">
+                <h3 id="ai-modal-title" style="margin:0;font-size:18px;">AI Stock Predictor</h3>
+                <button id="ai-modal-close" aria-label="Close" style="background:none;border:none;font-size:20px;cursor:pointer;">×</button>
+            </div>
+            <div class="ai-modal-body" style="padding:16px 18px;">
+                <div class="form-grid" style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;">
+                    <div class="form-group">
+                        <label for="ai-stock-select">Choose Stock:</label>
+                        <select id="ai-stock-select">
+                            <option value="">Choose</option>
+                            <option value="AAPL">Apple Inc. (AAPL)</option>
+                            <option value="MSFT">Microsoft Corp. (MSFT)</option>
+                            <option value="GOOGL">Alphabet Inc. (GOOGL)</option>
+                            <option value="AMZN">Amazon.com Inc. (AMZN)</option>
+                            <option value="TSLA">Tesla Inc. (TSLA)</option>
+                            <option value="FB">Meta Platforms Inc. (FB)</option>
+                            <option value="NVDA">NVIDIA Corp. (NVDA)</option>
+                            <option value="JPM">JPMorgan Chase & Co. (JPM)</option>
+                            <option value="V">Visa Inc. (V)</option>
+                            <option value="PG">Procter & Gamble Co. (PG)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="ai-date-input">Date:</label>
+                        <input type="date" id="ai-date-input">
+                    </div>
+                    <div class="form-group">
+                        <label for="ai-chart-type">Chart Type:</label>
+                        <select id="ai-chart-type">
+                            <option value="bar">Histogram</option>
+                            <option value="line">Line</option>
+                            <option value="area">Area</option>
+                            <option value="box">Box</option>
+                            <option value="violin">Violin</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="ai-visualization">Visualization:</label>
+                        <select id="ai-visualization">
+                            <option value="both">Chart + Ranking</option>
+                            <option value="chart">Chart Only</option>
+                            <option value="ranking">Ranking Only</option>
+                        </select>
+                    </div>
+                    <div class="form-group" style="grid-column:1 / -1;">
+                        <label for="ai-model">AI Model:</label>
+                        <select id="ai-model">
+                            <option value="gemini">Gemini</option>
+                            <option value="chatgpt">ChatGPT</option>
+                            <option value="deepseek">DeepSeek</option>
+                        </select>
+                    </div>
+                </div>
+                <div style="margin-top:12px;display:flex;gap:10px;justify-content:flex-end;">
+                    <button id="ai-submit" class="extras-btn">Run AI Prediction</button>
+                    <button id="ai-export-doc" class="extras-btn" disabled>Export AI Report (Word)</button>
+                </div>
+                <div id="ai-results" style="margin-top:16px;">
+                    <div id="ai-selected-output" class="card" style="padding:12px;">
+                        <div><strong>Selected AI Model:</strong> <span id="ai-selected-model">-</span></div>
+                        <div><strong>Predicted Price (Today):</strong> <span id="ai-predicted-price">-</span></div>
+                    </div>
+                    <div id="ai-chart-container" style="margin-top:12px;"></div>
+                    <div id="ai-ranking-container" style="margin-top:12px;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

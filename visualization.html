@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stock Visualization - Stock Price Prediction System</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body class="visualization-page">
+    <nav class="navbar">
+        <button id="back-button" class="left">← Back to Dashboard</button>
+        <h1 class="center main-title">Stock Visualization</h1>
+        <button id="theme-toggle" class="right">Toggle Theme</button>
+    </nav>
+
+    <div class="container">
+        <div class="card controls-card">
+            <h3>Visualization Controls</h3>
+            <div class="visualization-controls">
+                <button id="pie-chart-btn" class="chart-type-btn active">Pie Chart</button>
+                <button id="bar-chart-btn" class="chart-type-btn">Bar Graph</button>
+            </div>
+            <div class="info-text">
+                <p>Select a chart type to visualize the model predictions from your dashboard.</p>
+            </div>
+        </div>
+
+        <div class="card chart-card">
+            <div id="chart-container">
+                <div class="placeholder-text">
+                    <h3>No Data Available</h3>
+                    <p>Please run a prediction on the dashboard first, then return here to view visualizations.</p>
+                    <button id="go-to-dashboard" class="btn-primary">Go to Dashboard</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="card info-card">
+            <h3>Chart Information</h3>
+            <div class="info-grid">
+                <div class="info-item">
+                    <h4>Pie Chart</h4>
+                    <p>Shows the distribution of predictions across different ML models with percentages and proportions.</p>
+                </div>
+                <div class="info-item">
+                    <h4>Bar Graph</h4>
+                    <p>Compares predicted prices side-by-side for easy visual comparison between models.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="visualization.js"></script>
+</body>
+</html>

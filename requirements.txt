@@ -1,0 +1,9 @@
+Flask
+Flask-CORS
+yfinance
+pandas
+numpy
+scikit-learn
+tensorflow
+matplotlib
+requests
